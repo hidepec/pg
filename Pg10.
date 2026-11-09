@@ -1,0 +1,33 @@
+from collections import Counter
+import numpy as np
+X = np.array([
+    [150, 7.0],
+    [170, 7.5],
+    [140, 6.8],
+    [130, 6.5],
+    [120, 6.2],
+    [110, 6.0],
+])
+y = np.array([0, 0, 0, 1, 1, 1])
+def euclidean_distance(a, b):
+    return float(np.sqrt(np.sum((a - b) ** 2)))
+def knn_predict(X, y, test_point, k=3):
+    distances = []
+    for i in range(len(X)):
+        dist = euclidean_distance(X[i], test_point)
+        distances.append((dist, int(y[i])))
+    distances.sort(key=lambda x: x[0])
+    print("Sorted distances:")
+    print(distances)
+    neighbors = distances[:k]
+    labels = [label for _, label in neighbors]
+    prediction = Counter(labels).most_common(1)[0][0]
+    return prediction, neighbors
+test_point = np.array([135, 6.7])
+print("Test Point:", test_point)
+prediction, neighbors = knn_predict(X, y, test_point, k=3)
+print("Nearest Neighbors:", neighbors)
+if prediction == 0:
+    print("Predicted Class: Apple")
+else:
+    print("Predicted Class: Orange")
