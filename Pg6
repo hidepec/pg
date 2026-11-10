@@ -1,0 +1,29 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+df=pd.read_csv("housing.csv")
+x=df['total_rooms'].head(150).values.reshape(-1,1)
+y=df['median_house_value'].head(150).values.reshape(-1,1)
+plt.scatter(x,y,color="blue",s=30)
+mean_x=np.mean(x)
+mean_y=np.mean(y)
+ss_xy=np.sum((x-mean_x)*(y-mean_y))
+ss_xx=np.sum((x-mean_x)**2)
+b1=ss_xy/ss_xx
+b0=mean_y-b1*mean_x
+print("slope(b1):",b1)
+print("intercept(b0):",b0)
+
+y_pred=b0+b1*x
+n=len(y)
+mse=np.sum(((y-y_pred)**2)/n)
+print("MEAN SQUARE ROOT:",mse)
+
+ss_res=np.sum((y-y_pred)**2)
+ss_tot=np.sum((y-mean_y)**2)
+r2=1-(ss_res/ss_tot)
+print("R-SQUARED:",r2)
+plt.plot(x,y_pred,color="green")
+plt.plot("total rooms")
+plt.title("simple linear regression (150 sample)")
+plt.show()
