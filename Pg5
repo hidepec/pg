@@ -1,0 +1,28 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+x=np.array([1,2,3,4,5,6,7])
+y=np.array([2,4,5,6,8,7,10])
+plt.scatter(x,y,color='m',marker="o",s=30)
+mean_x=np.mean(x)
+mean_y=np.mean(y)
+ss_xy=np.sum((x-mean_x)*(y-mean_y))
+ss_xx=np.sum((x-mean_x)**2)
+b1=ss_xy/ss_xx
+b0=mean_y-b1*mean_x
+print("slope(b1):",b1)
+print("intercept(b0):",b0)
+y_pred=b0+b1*x
+n=len(y)
+mse=np.sum(((y-y_pred)**2)/n)
+print("MEAN SQUARE ROOT:",mse)
+ss_res=np.sum((y-y_pred)**2)
+ss_tot=np.sum((y-mean_y)**2)
+r2=1-(ss_res/ss_tot)
+print("R-SQUARED:",r2)
+plt.plot(x,y_pred,color="green",label="regression")
+plt.xlabel('X')
+plt.ylabel('y')
+plt.title("linear regression with mse and r2")
+plt.legend()
+plt.show()
